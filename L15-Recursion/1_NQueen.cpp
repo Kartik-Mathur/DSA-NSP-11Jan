@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-bool isSafe(int board[][10], int r, int c,
-            int n) {
+bool isSafe(int board[][10], int r, int c, int n) {
 	// Check current col
 	for (int i = 0; i < r; ++i)
 	{
@@ -13,7 +12,11 @@ bool isSafe(int board[][10], int r, int c,
 	int og_r = r, og_c = c;
 
 	while (r >= 0 and c < n) {
-		if (board[r--][c++]) return false;
+		if (board[r][c]) {
+			return false;
+		}
+		r--;
+		c++;
 	}
 	// Check upper left diagonal
 	r = og_r;
@@ -25,7 +28,6 @@ bool isSafe(int board[][10], int r, int c,
 	// agar upr teeno jagah kahi bhi queen nhi h that means its safe to put queen here
 	return true;
 }
-cout << endl;
 
 bool nQueen(int board[][10], int row, int n) {
 	// base case
