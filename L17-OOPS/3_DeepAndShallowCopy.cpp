@@ -1,71 +1,103 @@
 #include <iostream>
 using namespace std;
 
-// BLUE PRINT
 class Car {
-public:
-	// Data members
-	char name[100];
-	int model;
+private:
 	int price;
+public:
+	char *name;
+	int model;
 
-	// Functions
 	void print() {
 		cout << "Name   : " << name << endl;
 		cout << "Model  : " << model << endl;
 		cout << "Price  : " << price << endl << endl;
 	}
 
-	// 1. Default Constructor
-	// Constructor kuch return nhi krta iska name is same as class name
 	Car() {
 		cout << "Default Constructor\n";
+		name = NULL; // As pointer should not have garbage value in it
 	}
 
-	// 2. Parameterized Constructor
 	Car(char *n, int p, int m) {
 		cout << "Parameterized Constructor\n";
-		strcpy(name, n);
+		// name ek pointer hai that can point to heap memory address
+		name = new char[strlen(n) + 1]; // Create karo space
+		strcpy(name, n); // name ko copy krdo heap memory ke andar
 		price = p;
 		model = m;
 	}
 
-	// 3. Parameterized Constructor
 	Car(int p, int m, char *n) {
 		cout << "Parameterized Constructor - 2\n";
+		name = new char[strlen(n) + 1];
 		strcpy(name, n);
 		price = p;
 		model = m;
 	}
 
-	// 4. Copy Constructor
-	// Car B = A; // A will go inside Car X
 	Car (Car &X) {
 		cout << "Copy Constructor\n";
+		name = new char[strlen(X.name) + 1];
 		strcpy(name, X.name);
 		price = X.price;
 		model = X.model;
 	}
 
-	// 5. Copy Assignment Operator Function
 	void operator=(Car &X) {
 		cout << "Copy Assignment Operator\n";
+		// yaha ho skta hai name already kisi data ko store krke baitha ho
+		// Toh pehle name ko delete karo
+		if (name != NULL) {
+			delete []name;
+			name = NULL;
+		}
+		// new memory create karo to store X.name
+		name = new char[strlen(X.name) + 1];
 		strcpy(name, X.name);
 		price = X.price;
 		model = X.model;
 	}
 
-	// 6. Destructor
 	~Car() {
 		cout << "Deleting Car: " << name << endl;
 	}
 
-	// 7. Operator Overloading
 	void operator+=(Car &X) {
 		cout << "Operator Overloading\n";
+		char *oldname = name;
+		name = new char[strlen(oldname) + strlen(X.name) + 1];
+		strcpy(name, oldname);
 		strcat(name, X.name);
+
+		// Now delete oldname
+		delete []oldname;
+		oldname = NULL;
 		price += X.price;
 		model += X.model;
+	}
+
+	// GETTER AND SETTER
+	void setPrice(int p) {
+		if (p > 100 and p < 500) {
+			price = p;
+		}
+		else {
+			price = 250;
+		}
+	}
+
+	int getPrice() {
+		return price;
+	}
+
+	void setName(char *n) {
+		if (name != NULL) {
+			delete []name;
+		}
+
+		name = new char[strlen(n) + 1];
+		strcpy(name, n);
 	}
 };
 
@@ -73,16 +105,20 @@ public:
 
 int main() {
 
-	Car A; // It will call default constructor function
-	strcpy(A.name, "Maruti");
+	Car A;
+	// strcpy(A.name, "Maruti");
+	A.setName("Maruti");
 	A.model = 2020;
-	A.price = 200;
+	A.setPrice(-1200);
+	cout << A.getPrice() << endl;
+	// A.price = 200;
+	// cout << A.price << endl;
 
 
-	Car B; // It will call default constructor function
-	strcpy(B.name, "BMW");
-	B.model = 2025;
-	B.price = 400;
+	Car B("BMW", 400, 2025);
+	// strcpy(B.name, "BMW");
+	// B.model = 2025;
+	// B.price = 400;
 
 	A.print();
 	B.print();
@@ -102,9 +138,6 @@ int main() {
 	E = C; // Copy Assignment operator (Car E already created hai update ho rhi value h bas)
 	E.print();
 
-	// Operator Overloading
-	E += C;
-	E.print();
 
 
 	return 0;
