@@ -37,6 +37,28 @@ public:
 		price = p;
 		model = m;
 	}
+
+	// 4. Copy Constructor
+	// Car B = A; // A will go inside Car X
+	Car (Car &X) {
+		cout << "Copy Constructor\n";
+		strcpy(name, X.name);
+		price = X.price;
+		model = X.model;
+	}
+
+	// 5. Copy Assignment Operator Function
+	void operator=(Car &X) {
+		cout << "Copy Assignment Operator\n";
+		strcpy(name, X.name);
+		price = X.price;
+		model = X.model;
+	}
+
+	// 6. Destructor
+	~Car() {
+		cout << "Deleting Car: " << name << endl;
+	}
 };
 
 
@@ -65,7 +87,12 @@ int main() {
 	Car D(200, 2026, x); // It will call parameterized constructor - 2 function
 	D.print();
 
+	Car E = A; // It will call copy constructor
+	// Car E(A);  // It's another way of calling copy constructor
+	E.print();
 
+	E = C; // Copy Assignment operator (Car E already created hai update ho rhi value h bas)
+	E.print();
 
 
 	return 0;
