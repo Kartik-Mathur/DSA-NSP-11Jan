@@ -132,7 +132,7 @@ public:
 	int height;
 	bool balanced;
 };
-
+// 8 3 10 1 6 14 4 7 13 9 -1
 Pair isBalanced(node* root){
 	if(root == NULL){
 		Pair p;
