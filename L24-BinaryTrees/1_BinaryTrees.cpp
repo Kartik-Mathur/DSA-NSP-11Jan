@@ -161,6 +161,16 @@ void levelOrderTraversal(node* root){
 	}
 }
 
+void mirror(node* root){
+	if(root == NULL){
+		return;
+	}
+
+	swap(root->left, root->right);
+	mirror(root->left);
+	mirror(root->right);
+}
+
 int main(){
 
 	node* root = createTree();
@@ -179,6 +189,16 @@ int main(){
 	Pair ans = fastDiameter(root);
 	cout << "Fast Height : "<<ans.height<<endl;
 	cout << "Fast Dia.   : "<<ans.diameter<<endl;
+
+	node* x = search(root, 17);
+	if(x == NULL){
+		cout << "Key not found\n";
+	}
+	else{
+		cout << "Found : "<<x->data << endl;
+	}
+	levelOrderTraversal(root);
+	mirror(root);
 	levelOrderTraversal(root);
 
 	return 0;
