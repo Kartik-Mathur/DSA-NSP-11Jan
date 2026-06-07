@@ -1,0 +1,8 @@
+A B C D E F 
+Distance of F from A : 3
+Distance of E from A : 2
+Distance of A from A : 0
+Distance of D from A : 2
+Distance of C from A : 1
+Distance of B from A : 1
+F <-- E <-- C <-- A
