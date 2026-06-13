@@ -1,0 +1,4 @@
+Distance of A from A : 0
+Distance of A from B : 1
+Distance of A from C : 6
+Distance of A from D : 3
